@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Photo Gallery</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .gallery img {
+      width: 150px;
+      height: 100px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      transition: transform 0.3s;
+    }
+    .gallery img:focus {
+      outline: 3px solid blue;
+    }
+    .large-image {
+      margin: 20px auto;
+      width: 80%;
+      height: 300px;
+      background-color: #f0f0f0;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+    }
+    .large-text {
+      margin-top: 10px;
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Accessible Interactive Photo Gallery</h1>
+  <div class="large-image" id="largeImage"></div>
+  <div class="large-text" id="largeText">Hover or focus on an image to see details</div>
+
+  <div class="gallery">
+    <img src="flower.jpeg"  alt="Flower">
+    <img src="book.jpeg" alt="Books">
+    <img src="rain.jpeg" alt="Rain">
+    <img src="lamp.jpeg" alt="Lamp">
+    <img src="waves.jpeg" alt="waves">
+    <img src="ice.jpeg" alt="Ice">
+  </div>
+
+  <script >
+    document.addEventListener('DOMContentLoaded', () => {
+    const images = document.querySelectorAll('.gallery img');
+    const largeImage = document.getElementById('largeImage');
+    const largeText = document.getElementById('largeText');
+  
+    images.forEach((image, index) => {
+      image.setAttribute('tabindex', '0');
+      console.log(`Tabindex added to image ${index + 1}`);
+    });
+
+    images.forEach((image) => {
+      image.addEventListener('mouseover', () => {
+        updateLargeImage(image);
+      });
+  
+      image.addEventListener('mouseleave', () => {
+        resetLargeImage();
+      });
+  
+      image.addEventListener('focus', () => {
+        updateLargeImage(image);
+      });
+  
+      image.addEventListener('blur', () => {
+        resetLargeImage();
+      });
+    });
+  
+    function updateLargeImage(image) {
+      largeImage.style.backgroundImage = `url(${image.src})`;
+      largeText.textContent = image.alt;
+      console.log('Large image updated:', image.alt);
+    }
+  
+    function resetLargeImage() {
+      largeImage.style.backgroundImage = 'none';
+      largeText.textContent = 'Hover or focus on an image to see details';
+      console.log('Large image reset to default');
+    }
+  
+    console.log('Page loaded successfully!');
+  });
+  
+  </script>
+</body>
+</html>
